@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react'
 
 const PokeGrid = ({ pokeName,pokeImg,pokeImgShiny,pokeType,abilities,location,moves,evoPath }: { pokeName: string,pokeImg:string ,pokeImgShiny:string,pokeType:string,abilities:string,location:string,moves:string,evoPath:string[]}) => {
 
-
   
   return (
     <>
@@ -99,14 +98,13 @@ const PokeGrid = ({ pokeName,pokeImg,pokeImgShiny,pokeType,abilities,location,mo
   <div className="flex  flex-col items-center justify-center h-auto mb-4 rounded-sm bg-gray-50 dark:bg-gray-800  hover:bg-amber-100">
     <h1 id="evoPathHeader" className="text-center text-3xl font-bold">EVOLUTION PATH</h1>
 
-    <div id="carouselSection" className="flex items-center justify-center ">
+    <div id="carouselSection" className="flex flex-wrap items-center justify-center ">
       {/* <!--generate evolution images--> */}
       
-      {/* {evoPath.map((pokeEvoImg, index) => (
-        <li key={index} className="font-bold text-lg">
-          {pokeEvoImg}
-        </li>
-      ))} */}
+      {evoPath.length>0 ? evoPath.map((pokeEvoImg, index) => (
+        <img key={index} className="font-bold text-lg"
+          src={pokeEvoImg}></img> 
+      )) : <p className='text-2xl'> No Evolution Path </p>}
       
       
 
@@ -118,8 +116,6 @@ const PokeGrid = ({ pokeName,pokeImg,pokeImgShiny,pokeType,abilities,location,mo
  
 
 </div>
-
-
 
 {/* /* <!--end of grids--> */}
     </>

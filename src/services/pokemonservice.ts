@@ -1,7 +1,7 @@
 let pokeID = 0;
 const limitPokeID= 650; // to cap pokemon search to only 1-5gen
 
-export const getPokemon =async(userInput)=>{
+export const getPokemon =async(userInput:string)=>{
             
             const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/`+userInput);
             const data = await promise.json();
@@ -10,7 +10,7 @@ export const getPokemon =async(userInput)=>{
             
 }          
 
-export const  getLocation= async (pokeID)=>{
+export const  getLocation= async (pokeID:string)=>{
 
     const promise = await fetch (`https://pokeapi.co/api/v2/pokemon/${pokeID}/encounters`);
     const data = await promise.json();
@@ -18,7 +18,7 @@ export const  getLocation= async (pokeID)=>{
     if (data.length>0)
         {
             console.log("LOC COUNT#" + data.length)
-            strLocation = data.map(info=> info.location_area.name).join(', ');
+            strLocation = data.map((info:any)=> info.location_area.name).join(', ');
             console.log(strLocation);
         }
         else 
@@ -27,7 +27,7 @@ export const  getLocation= async (pokeID)=>{
         return strLocation;
 }
 
-export const getEvolutionPath=async (pokeID)=>{
+export const getEvolutionPath=async (pokeID:string)=>{
     
     const speciesPromise = await fetch (`https://pokeapi.co/api/v2/pokemon-species/${pokeID}`);
     const speciesData = await speciesPromise.json();
@@ -40,7 +40,7 @@ export const getEvolutionPath=async (pokeID)=>{
     if (evoPathData.chain.evolves_to.length>0)
         {
 
-            console.log(`BABY ${evoPathData.chain.species.name}`);
+         
             evoPathArr.push(evoPathData.chain.species.name);
             for (let i =0 ; i< evoPathData.chain.evolves_to.length;i++)
                 {   
@@ -76,50 +76,34 @@ export const getEvolutionPath=async (pokeID)=>{
         }
         
 
-console.log ("EVO PATH inside service:" +evoPathArr);
 
 let evoPathImgArr=[];
 // if no evolution path set it to N/A
-if (evoPathArr.length==0)
+if (evoPathArr.length<=0)
     { 
         console.log("EVO PATH LENGTH IS ZERO");
-        // evoPathImgArr=["no evolution path inside Array"];
+      
     }
     //create element and display image of thhe pokemon evolution
     else{
-       console.log("IS NOT ZERO");
+      
         for(let m=0;m<evoPathArr.length;m++)
             {
-            
                 const pokeIdPromise= await fetch ("https://pokeapi.co/api/v2/pokemon/"+evoPathArr[m]);
-                console.log ("inside service");
                 const pokeIdData = await pokeIdPromise.json();
-                evoPathImgArr.push( pokeIdData.sprites.other["official-artwork"].front_default);
-                console.log(evoPathImgArr +"IMG ARR");
-                
+                evoPathImgArr.push(pokeIdData.sprites.other["official-artwork"].front_default);
+      
             }
-
-            
+       
         }
         
 return evoPathImgArr;
 }
-// export const getEvoPathImages =async(pokeName)=>{
-  
-                 
-//     const promise= await fetch ("https://pokeapi.co/api/v2/pokemon/"+pokeName);
-//     const data = await promise.json();
-//     return data.sprites.other["official-artwork"].front_default;
-           
-// }
 
-
-
-const generateRandomPokemon =()=>
+export const getRandomNumber =()=>
 {
-    let randomNum = Math.floor(Math.random() * (limitPokeID - 1 + 1)) + 1;
-    console.log(randomNum);
-    getPokemon(randomNum);
+  return (Math.floor(Math.random() * (limitPokeID - 1 + 1)) + 1).toString();
+  
 
 }
 

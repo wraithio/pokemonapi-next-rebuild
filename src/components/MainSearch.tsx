@@ -1,36 +1,21 @@
 'use client'
-import { Pokemon } from '@/interfaces/interface';
-import {getEvolutionPath, getLocation, getPokemon} from'@/services/pokemonservice';
 
+import {getEvolutionPath, getLocation, getPokemon, getRandomNumber} from'@/services/pokemonservice';
 import React, { useEffect, useState } from 'react'
 import PokeGrid from './PokeGrid';
 
+
 const NavbarSearch = () => {
 const [searchValue, setSearchValue] = useState<string>('1');
-const [pokeId,setPokeId] = useState<number>(0);
+const [pokeId,setPokeId] = useState<string>('1');
 const [pokeName,setPokeName] = useState<string>('');
-const [pokeImg,setPokeImg]=useState<string>('');
-const [pokeImgShiny,setPokeImgShiny] = useState<string>('');
+const [pokeImg,setPokeImg]=useState<string>('./assets/dexlogo.png');
+const [pokeImgShiny,setPokeImgShiny] = useState<string>('./assets/dexlogo.png');
 const [pokeType, setPokeType]=useState<string>('');
 const [location,setLocation]=useState<string>('');
 const [abilities, setAbilities]=useState<string>('');
 const [moves,setMoves]=useState<string>('');
-const [evoPath,setEvoPath]=useState<string[]>([]);
-
-
-
-// const [pokeData,setPokeData] = useState<Pokemon>({
-//   pokeId: 0,
-//   pokeName:'',
-//   pokeImg: '',
-//   pokeImgShiny: '',
-//   pokeType: '',
-//   pokeLocation: '',
-//   pokeAbilities: '',
-//   pokeMoves: '',
-// })
-
-
+const [evoPath,setEvoPath]=useState<string[]>(['1']); 
 
 // to handle when user hits "Enter"
 const handleKeyDown = (event:any) => {
@@ -40,33 +25,31 @@ const handleKeyDown = (event:any) => {
     getPokemonData(searchValue);
   }
 };
-useEffect(()=>{
-  getPokemonData('1');
-},[])
 
-const getLocationData= async (pokeId:number)=>{
+
+const generateRandomPokemon =()=>{
+setPokeId( getRandomNumber());
+
+}
+
+const getLocationData= async (pokeId:string)=>{
   setLocation(await getLocation(pokeId));
 }
 
-const getEvoPathData=async (pokeId:number)=>{
+const getEvoPathData=async (pokeId:string)=>{
   console.log("GET EVO PATH DATA ENTERED") ;
   setEvoPath(await getEvolutionPath(pokeId));
-  
-
 }
 
 const getPokemonData = async(searchValue:string)=>{
   const data =  await getPokemon(searchValue);
-
   setPokeId(data.id);
   setPokeName(data.name);
   setPokeImg (data.sprites.other["official-artwork"].front_default);
   setPokeImgShiny(data.sprites.other["official-artwork"].front_shiny);
 
-
   //create string type
   let strType:string='N/A'
-
   if (data.types.length>0)
       {
           strType=data.types.map((types:any)=> types.type.name).join(",");
@@ -112,26 +95,19 @@ const getPokemonData = async(searchValue:string)=>{
   // console.log(pokeData);
 
 }
-useEffect(()=>{
 
-  console.log("PokeID Use effect"+pokeId);
+useEffect(()=>{
+  getPokemonData(pokeId);
+},[])
+
+useEffect(()=>{
+  getPokemonData(pokeId);
   getLocationData(pokeId);
   getEvoPathData(pokeId);
   
 }
 ,[pokeId]);
 
-useEffect(()=>{
-console.log("POKENAME " +pokeName)
-}, [pokeName]);
-
-useEffect(()=>{
-console.log("USE EFFECT TYpe" +pokeType);
-},[pokeType])
-
-useEffect(()=>{
-console.log("EVO PATH src? "+ evoPath);
-},[evoPath])
 
   return (
     <div>
@@ -177,7 +153,7 @@ console.log("EVO PATH src? "+ evoPath);
       <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
      
         <li id="randomPokemonlink">
-          <div className="flex">   <a href="#" className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-amber-700 md:p-0 md:dark:hover:text-amber-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Generate a Random Pokemon  <i className="fa-solid fa-shuffle p"></i></a>
+          <div className="flex">   <a href="#" className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-amber-700 md:p-0 md:dark:hover:text-amber-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" onClick={generateRandomPokemon}>Generate a Random Pokemon  <i className="fa-solid fa-shuffle p"></i></a>
 
            
          
