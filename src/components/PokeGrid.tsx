@@ -1,7 +1,13 @@
 'use client'
-import React from 'react'
+import { getEvolutionPath } from '@/services/pokemonservice';
+import React, { useEffect, useState } from 'react'
 
-const Grid = () => {
+
+
+const PokeGrid = ({ pokeName,pokeImg,pokeImgShiny,pokeType,abilities,location,moves,evoPath }: { pokeName: string,pokeImg:string ,pokeImgShiny:string,pokeType:string,abilities:string,location:string,moves:string,evoPath:string[]}) => {
+
+
+  
   return (
     <>
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -32,8 +38,8 @@ const Grid = () => {
   <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
 
      <div className="flex  items-center justify-center h-auto mb-4 p-4  rounded-sm bg-gray-50 dark:bg-gray-800  hover:bg-amber-100 ">
-        <p id="pokeName" className="lg:text-2xl text-gray-900 dark:text-white  font-bold me-5  sm:text-xl">
-         NO POKEMON SELECTED
+        <p id="pokeName" className="lg:text-2xl text-gray-900 dark:text-white  font-bold me-5  sm:text-xl uppercase">
+        {pokeName}
       
         </p>
         
@@ -47,13 +53,13 @@ const Grid = () => {
      <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="flex items-center justify-center rounded-sm bg-gray-50 h-auto dark:bg-gray-800  hover:bg-amber-100">
           
-            <img  id="pokeImg" className="flex items-center justify-center" src="./assets/dexlogo.png" alt="Pokemon Img"/>
+            <img  id="pokeImg" className="flex items-center justify-center" src={pokeImg} alt="Pokemon Img"/>
           
         </div>
 
         <div className="flex items-center justify-center rounded-sm h-auto bg-gray-50 dark:bg-gray-800  hover:bg-amber-100">
        
-            <img  id="pokeImgShiny" className="flex items-center justify-center" src="./assets/dexlogo.png" alt="Pokemon Img"/>
+            <img  id="pokeImgShiny" className="flex items-center justify-center" src={pokeImgShiny} alt="Pokemon Img"/>
           
         </div>
  
@@ -66,25 +72,25 @@ const Grid = () => {
       
       <div className="flex flex-col items-center justify-start rounded-sm bg-gray-50 h-auto dark:bg-gray-800  hover:bg-amber-100">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">TYPE</h5>
-          <p id="pokeType" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">No Type</p>
+          <p id="pokeType" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">{pokeType}</p>
     
        
       </div>
         <div className="flex flex-col items-center justify-start rounded-sm bg-gray-50 h-auto dark:bg-gray-800  hover:bg-amber-100 ">
             <h5 className="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">ABILITIES</h5>
-            <p id="pokeAbilities" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">No Abilities</p>
+            <p id="pokeAbilities" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">{abilities}</p>
         </div>
 
         <div className="flex flex-col items-center justify-start rounded-sm bg-gray-50 h-AUTO dark:bg-gray-800  hover:bg-amber-100">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">LOCATION</h5>
-          <p id="pokeLocation" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">No Location</p>
+          <p id="pokeLocation" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">{location}</p>
         </div>
 
         
       
         <div className="flex flex-col items-center justify-start rounded-sm bg-gray-50 h-auto dark:bg-gray-800  hover:bg-amber-100">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">MOVES</h5>
-          <p id="pokeMoves" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">No Moves</p>
+          <p id="pokeMoves" className="mb-3 text-2xl text-gray-700 dark:text-gray-500">{moves}</p>
         </div>
      </div>
      {/* <!--end info-->
@@ -95,6 +101,14 @@ const Grid = () => {
 
     <div id="carouselSection" className="flex items-center justify-center ">
       {/* <!--generate evolution images--> */}
+      
+      {/* {evoPath.map((pokeEvoImg, index) => (
+        <li key={index} className="font-bold text-lg">
+          {pokeEvoImg}
+        </li>
+      ))} */}
+      
+      
 
     </div>
   </div>
@@ -112,4 +126,4 @@ const Grid = () => {
   )
 }
 
-export default Grid
+export default PokeGrid

@@ -1,20 +1,21 @@
 'use client'
 import { Pokemon } from '@/interfaces/interface';
-import {getLocation, getPokemon} from'@/services/pokemonservice';
+import {getEvolutionPath, getLocation, getPokemon} from'@/services/pokemonservice';
 
 import React, { useEffect, useState } from 'react'
 import PokeGrid from './PokeGrid';
 
 const NavbarSearch = () => {
-const [searchValue, setSearchValue] = useState<string>('');
+const [searchValue, setSearchValue] = useState<string>('1');
 const [pokeId,setPokeId] = useState<number>(0);
 const [pokeName,setPokeName] = useState<string>('');
 const [pokeImg,setPokeImg]=useState<string>('');
-const [pokeImgShinny,setPokeImgShinny] = useState<string>('');
+const [pokeImgShiny,setPokeImgShiny] = useState<string>('');
 const [pokeType, setPokeType]=useState<string>('');
 const [location,setLocation]=useState<string>('');
 const [abilities, setAbilities]=useState<string>('');
 const [moves,setMoves]=useState<string>('');
+const [evoPath,setEvoPath]=useState<string[]>([]);
 
 
 
@@ -39,9 +40,19 @@ const handleKeyDown = (event:any) => {
     getPokemonData(searchValue);
   }
 };
+useEffect(()=>{
+  getPokemonData('1');
+},[])
 
 const getLocationData= async (pokeId:number)=>{
   setLocation(await getLocation(pokeId));
+}
+
+const getEvoPathData=async (pokeId:number)=>{
+  console.log("GET EVO PATH DATA ENTERED") ;
+  setEvoPath(await getEvolutionPath(pokeId));
+  
+
 }
 
 const getPokemonData = async(searchValue:string)=>{
@@ -50,7 +61,7 @@ const getPokemonData = async(searchValue:string)=>{
   setPokeId(data.id);
   setPokeName(data.name);
   setPokeImg (data.sprites.other["official-artwork"].front_default);
-  setPokeImgShinny(data.sprites.other["official-artwork"].front_shiny);
+  setPokeImgShiny(data.sprites.other["official-artwork"].front_shiny);
 
 
   //create string type
@@ -67,8 +78,6 @@ const getPokemonData = async(searchValue:string)=>{
       console.log ("Doesnt have type");
   }
 
-
-  //get location
   
    //iterate through all abilities
 
@@ -106,6 +115,8 @@ const getPokemonData = async(searchValue:string)=>{
 useEffect(()=>{
 
   console.log("PokeID Use effect"+pokeId);
+  getLocationData(pokeId);
+  getEvoPathData(pokeId);
   
 }
 ,[pokeId]);
@@ -117,6 +128,11 @@ console.log("POKENAME " +pokeName)
 useEffect(()=>{
 console.log("USE EFFECT TYpe" +pokeType);
 },[pokeType])
+
+useEffect(()=>{
+console.log("EVO PATH src? "+ evoPath);
+},[evoPath])
+
   return (
     <div>
 
@@ -174,7 +190,7 @@ console.log("USE EFFECT TYpe" +pokeType);
 
   </div>
 </nav>
-<PokeGrid />
+<PokeGrid  pokeName={pokeName} pokeImg={pokeImg} pokeImgShiny={pokeImgShiny} pokeType={pokeType} abilities={abilities} location={location} moves={moves} evoPath={evoPath}/>
 
     </div>
   )

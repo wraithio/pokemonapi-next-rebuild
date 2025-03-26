@@ -32,8 +32,6 @@ export const getEvolutionPath=async (pokeID)=>{
     const speciesPromise = await fetch (`https://pokeapi.co/api/v2/pokemon-species/${pokeID}`);
     const speciesData = await speciesPromise.json();
 
-    //get evolution path
-    console.log(`EVO PATH : ${speciesData.evolution_chain.url}`);
 
     const evoPathPromise = await fetch(`${speciesData.evolution_chain.url}`);
     const evoPathData = await evoPathPromise.json();
@@ -78,15 +76,42 @@ export const getEvolutionPath=async (pokeID)=>{
         }
         
 
-        console.log ("EVO PATHS:" +evoPathArr);
-        
-      return evoPathArr;
-     
+console.log ("EVO PATH inside service:" +evoPathArr);
 
-         
+let evoPathImgArr=[];
+// if no evolution path set it to N/A
+if (evoPathArr.length==0)
+    { 
+        console.log("EVO PATH LENGTH IS ZERO");
+        // evoPathImgArr=["no evolution path inside Array"];
+    }
+    //create element and display image of thhe pokemon evolution
+    else{
+       console.log("IS NOT ZERO");
+        for(let m=0;m<evoPathArr.length;m++)
+            {
+            
+                const pokeIdPromise= await fetch ("https://pokeapi.co/api/v2/pokemon/"+evoPathArr[m]);
+                console.log ("inside service");
+                const pokeIdData = await pokeIdPromise.json();
+                evoPathImgArr.push( pokeIdData.sprites.other["official-artwork"].front_default);
+                console.log(evoPathImgArr +"IMG ARR");
+                
+            }
 
             
+        }
+        
+return evoPathImgArr;
 }
+// export const getEvoPathImages =async(pokeName)=>{
+  
+                 
+//     const promise= await fetch ("https://pokeapi.co/api/v2/pokemon/"+pokeName);
+//     const data = await promise.json();
+//     return data.sprites.other["official-artwork"].front_default;
+           
+// }
 
 
 
@@ -97,6 +122,8 @@ const generateRandomPokemon =()=>
     getPokemon(randomNum);
 
 }
+
+
 
 
 
