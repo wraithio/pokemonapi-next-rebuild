@@ -1,4 +1,4 @@
-let pokeID = 0;
+// let pokeID = 0;
 const limitPokeID= 650; // to cap pokemon search to only 1-5gen
 
 export const getPokemon =async(userInput:string)=>{
@@ -14,7 +14,7 @@ export const  getLocation= async (pokeID:string)=>{
 
     const promise = await fetch (`https://pokeapi.co/api/v2/pokemon/${pokeID}/encounters`);
     const data = await promise.json();
-    let strLocation="N/A";
+    let strLocation:string="N/A";
     if (data.length>0)
         {
             console.log("LOC COUNT#" + data.length)
