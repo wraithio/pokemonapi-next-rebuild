@@ -24,4 +24,12 @@ Show Evolutionary Paths, if pokemon doesn't have an evolutionary path, have it r
 And a Favorites list
 
 
-//Peer Reviewed by: 
+//Peer Reviewed by: Aaron Robinson
+    Everything works as intended and meets project requirements. I like your use of components, they keep the code organzied and easy to read. Thats something I overlooked when creating mine. One small nitpick is that the locations and moves that print out are lowercase and hypenated. I used a simple format function to make them look a bit better, try it out if can. Great job!
+    
+    function formatString(input: string): string {
+  return input
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
