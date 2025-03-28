@@ -1,13 +1,17 @@
 'use client'
+import { useNameContext } from '@/Context/DataContext';
 import { getFavoritesNames } from '@/services/localStorage';
 import React, { useEffect, useState } from 'react'
 
 const Favorites = () => {
     const [favoritesList, setFavoritesList ]=useState<string[]>([]);
-
+    const {name,setName}= useNameContext();
     const getFavoritesNamesList =async()=>{
         const favoritesNamesData =  await getFavoritesNames();
         setFavoritesList(favoritesNamesData);
+      }
+      const handleNameChange=(name:string)=>{
+        setName(name);
       }
     
       useEffect(()=>{
@@ -38,8 +42,8 @@ const Favorites = () => {
      <ul className="space-y-2 font-medium" id="favoriteitemsSection">
       {/* <!-- auto generated li based on favorites Array--> */}
       {favoritesList.length>0 ? favoritesList.map((favorite,index) => (
-        <li className="ps-3 hover:bg-yellow-100" key={index}>{favorite} </li> 
-      )) : <p > No Favorites Added </p>}
+        <li className="ps-3 hover:bg-yellow-100 hover:cursor-pointer" key={index} onClick={()=>handleNameChange(favorite)}> {favorite}  </li> 
+      )) : <p > No Favorites Added </p>} 
       
      </ul>
   </div>

@@ -3,10 +3,8 @@ import { getEvolutionPath } from '@/services/pokemonservice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as faStarSolid} from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons';
-
 import React, { useEffect, useState } from 'react'
-import { getFavorites, getFavoritesNames, removeFromFavorites, saveToFavorites } from '@/services/localStorage';
-import Favorites from './Favorites';
+import { getFavorites,  removeFromFavorites, saveToFavorites } from '@/services/localStorage';
 
 
 

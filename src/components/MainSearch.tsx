@@ -6,6 +6,7 @@ import PokeGrid from './PokeGrid';
 import Favorites from './Favorites';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShuffle } from '@fortawesome/free-solid-svg-icons';
+import { useNameContext } from '@/Context/DataContext';
 
 
 const NavbarSearch = () => {
@@ -19,6 +20,7 @@ const [location,setLocation]=useState<string>('');
 const [abilities, setAbilities]=useState<string>('');
 const [moves,setMoves]=useState<string>('');
 const [evoPath,setEvoPath]=useState<string[]>(['1']); 
+const {name,setName}=useNameContext();
 
 // to handle when user hits "Enter" for search
 const handleKeyDown = (event:any) => {
@@ -29,10 +31,8 @@ const handleKeyDown = (event:any) => {
   }
 };
 
-
 const generateRandomPokemon =()=>{
 setPokeId( getRandomNumber());
-
 }
 
 const getLocationData= async (pokeId:string)=>{
@@ -66,11 +66,9 @@ const getPokemonData = async(searchValue:string)=>{
 
   
    //iterate through all abilities
-
-   let strAbilities:string ="N/A"
+  let strAbilities:string ="N/A"
    if (data.abilities.length>0)
        {
-           
            strAbilities = data.abilities.map((abilities:any)=> abilities.ability.name).join(', ');
            console.log(strAbilities);
            setAbilities(strAbilities);
@@ -83,7 +81,7 @@ const getPokemonData = async(searchValue:string)=>{
    let strMoves:string  ="N/A";
    if (data.moves.length>0)
        {
-           strMoves = data.moves.map((moves:any)=> moves.move.name).join(', ');// why does it not work if i use string
+           strMoves = data.moves.map((moves:any)=> moves.move.name).join(', ');
            console.log(strMoves);
            setMoves(strMoves);
        }
@@ -92,8 +90,6 @@ const getPokemonData = async(searchValue:string)=>{
            console.log("Doesnt have a move");
        }
        
-
-
 }
 
 useEffect(()=>{
@@ -104,9 +100,12 @@ useEffect(()=>{
   getPokemonData(pokeId);
   getLocationData(pokeId);
   getEvoPathData(pokeId);
-  
-}
-,[pokeId]);
+},[pokeId]);
+
+useEffect(()=>{
+// setSearchValue(name);
+getPokemonData(name)
+},[name])
 
 
   return (

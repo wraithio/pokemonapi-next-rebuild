@@ -11,21 +11,25 @@ export const saveToFavorites=async (pokeId:string) =>{
 
     //save updated array to local storage
     //JSON.stringify: Converts the array (or object) into a JSON string that can be stored in local storage.
+    if (typeof window !== 'undefined'){
     localStorage.setItem('PokeIds', JSON.stringify(pokeArr));
-
+    }
 }
 
 export const getFavorites=()=>{
-    // get all of the values that are stored in cityArr in local storage
-    let favoritesData = localStorage.getItem('PokeIds');
-    // console.log("FAVORITES DATA" +JSON.stringify(favoritesData));
-    
-    if (favoritesData == null) {
-        return [];
+    // get all of the values that are stored in cityArr in local storage\
+    if (typeof window !== 'undefined'){
+
+        let favoritesData = localStorage.getItem('PokeIds');
+        // console.log("FAVORITES DATA" +JSON.stringify(favoritesData));
+        
+        if (favoritesData == null) {
+            return [];
+        }
+        
+        //JSON.parse: Converts the JSON string back into an array (or object) so you can work with it.
+        return JSON.parse(favoritesData);
     }
- 
-    //JSON.parse: Converts the JSON string back into an array (or object) so you can work with it.
-    return JSON.parse(favoritesData);
 }
 
 export const removeFromFavorites=async (pokeId:string)=>{
@@ -40,7 +44,9 @@ export const removeFromFavorites=async (pokeId:string)=>{
     pokeArr.splice(pokeIdIndex, 1);
 
     // save updated array to local storage
-    localStorage.setItem('PokeIds', JSON.stringify(pokeArr));
+    if (typeof window !== 'undefined'){
+        localStorage.setItem('PokeIds', JSON.stringify(pokeArr));
+    }
 }
 
 export const getFavoritesNames=async()=>{
