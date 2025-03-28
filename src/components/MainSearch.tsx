@@ -10,6 +10,7 @@ import { useNameContext } from '@/Context/DataContext';
 
 
 const NavbarSearch = () => {
+// const [searchValue, setSearchValue] = useState<string>('1');
 const [searchValue, setSearchValue] = useState<string>('1');
 const [pokeId,setPokeId] = useState<string>('1');
 const [pokeName,setPokeName] = useState<string>('');
@@ -151,14 +152,13 @@ getPokemonData(name)
       </div>
       <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
      
-        {/* <li id="randomPokemonlink"> */}
+
           <div className="flex">   <a href="#" className="block py-2 px-3  rounded-sm border-1 border-gray-400 text-gray-900 font-extrabold  hover:bg-yellow-400  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" onClick={generateRandomPokemon}>Generate a Random Pokemon <FontAwesomeIcon icon={faShuffle} /></a>
 
            
          
           </div>
           
-        {/* </li> */}
       
       </ul>
     </div>
